@@ -7,31 +7,17 @@ return {
 			local current_line = vim.fn.line(".")
 
 			return vim.fn.system(
-				"git blame -L "
+				"git blame -fL "
 					.. current_line
 					.. ","
 					.. current_line
 					.. " "
 					.. file_path
 					.. " 2>/dev/null"
-					.. " | cut -d ' ' -f 2-4"
+					.. " | cut -d ' ' -f 3-5"
 					.. " | cut -c 2-"
 					.. " | tr -d '\n'"
 			)
-
-			-- return vim.fn.system(
-			-- 	"git blame -L "
-			-- 		.. current_line
-			-- 		.. ","
-			-- 		.. current_line
-			-- 		.. " "
-			-- 		.. file_path
-			-- 		.. " 2>/dev/null"
-			-- 		.. " | cut -c 2-"
-			-- 		.. " | cut -d ' ' -f -4"
-			-- 		.. " | sed 's/ (/: /g'"
-			-- 		.. " | tr -d '\n'"
-			-- )
 		end
 
 		require("lualine").setup({

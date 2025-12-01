@@ -12,6 +12,8 @@ return {
 				cpp = { "clang-format" },
 				lua = { "stylua" },
 				go = { "gofmt" },
+				html = { "prettier" },
+				css = { "prettier" },
 				javascript = { "prettier" },
 				typescript = { "prettier" },
 				elixir = { "mix" },
@@ -26,6 +28,9 @@ return {
 
 		vim.keymap.set("n", "<leader>f", function()
 			require("conform").format({ bufnr = 0 })
+		end)
+		vim.keymap.set("n", "<leader>F", function()
+			require("conform").format({ async = true, lsp_fallback = true })
 		end)
 	end,
 }

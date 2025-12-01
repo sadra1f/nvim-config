@@ -31,3 +31,6 @@ vim.opt.updatetime = 50
 -- vim.opt.colorcolumn = "80"
 
 vim.opt.showtabline = 2
+
+vim.opt.arabicshape = false
+vim.opt.wrap = true
