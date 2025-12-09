@@ -65,3 +65,8 @@ end)
 -- Added shortcuts
 vim.keymap.set("n", "<leader>rn", "<cmd>set relativenumber<CR>", { silent = true })
 vim.keymap.set("n", "<leader>Rn", "<cmd>set norelativenumber<CR>", { silent = true })
+
+vim.keymap.set("n", "<leader>tt", "<cmd>tabnew<CR>", { silent = true })
+vim.keymap.set("n", "<leader>tw", "<cmd>tabclose<CR>", { silent = true })
+vim.keymap.set("n", "<leader>t>", "<cmd>tabmove +1<CR>", { silent = true })
+vim.keymap.set("n", "<leader>t<", "<cmd>tabmove -1<CR>", { silent = true })
