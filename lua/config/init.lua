@@ -106,14 +106,22 @@ autocmd("FileType", {
 	group = vim.api.nvim_create_augroup("DjangoHTMLFix", { clear = true }),
 })
 
-autocmd({ "BufNewFile", "BufReadPost" }, {
+autocmd("TabEnter", {
 	group = vim.api.nvim_create_augroup("NeotreeOpen", { clear = true }),
 	callback = function()
-		vim.cmd("Neotree reveal")
-		-- This part helps keep the cursor in the previous window after opening the tree
-		if vim.fn.expand("%:p") ~= "" then
-			vim.cmd("noautocmd wincmd p")
+		-- tab-local flag so it only runs once per tab
+		if vim.t.neotree_opened then
+			return
 		end
+
+		vim.t.neotree_opened = true
+
+		-- defer to avoid E788
+		vim.schedule(function()
+			vim.cmd("Neotree reveal")
+			-- keep cursor in previous window
+			vim.cmd("noautocmd wincmd p")
+		end)
 	end,
 })
 
