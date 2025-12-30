@@ -125,6 +125,16 @@ autocmd("TabEnter", {
 	end,
 })
 
+autocmd("TabClosed", {
+	group = vim.api.nvim_create_augroup("TabCloseGoPrevious", { clear = true }),
+	callback = function()
+		-- If there is a previous tab, go to it
+		if vim.fn.tabpagenr() > 1 then
+			vim.cmd("tabprevious")
+		end
+	end,
+})
+
 vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
