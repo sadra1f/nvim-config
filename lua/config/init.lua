@@ -128,8 +128,8 @@ autocmd("TabEnter", {
 autocmd("TabClosed", {
 	group = vim.api.nvim_create_augroup("TabCloseGoPrevious", { clear = true }),
 	callback = function()
-		-- If there is a previous tab, go to it
-		if vim.fn.tabpagenr() > 1 then
+		-- If there is a previous tab and we aren't on the last tab, go to it
+		if vim.fn.tabpagenr() > 1 and vim.fn.tabpagenr() < vim.fn.tabpagenr("$") then
 			vim.cmd("tabprevious")
 		end
 	end,
