@@ -69,18 +69,15 @@ return {
 
 			vim.treesitter.language.register("templ", "templ")
 		end,
-
-		vim.keymap.set("n", "<leader>ctx", function()
-			local width = vim.opt.columns:get()
-			print(require("nvim-treesitter").statusline(width))
-		end),
 	},
 
 	{
 		"nvim-treesitter/nvim-treesitter-context",
 		after = "nvim-treesitter",
 		config = function()
-			require("treesitter-context").setup({
+			local tscontext = require("treesitter-context")
+
+			tscontext.setup({
 				enable = false, -- Enable this plugin (Can be enabled/disabled later via commands)
 				multiwindow = false, -- Enable multiwindow support.
 				max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
@@ -95,6 +92,12 @@ return {
 				zindex = 20, -- The Z-index of the context window
 				on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
 			})
+
+			vim.keymap.set("n", "<leader>ctx", function()
+				local width = vim.opt.columns:get()
+				print(require("nvim-treesitter").statusline(width))
+				tscontext.toggle()
+			end)
 		end,
 	},
 }
