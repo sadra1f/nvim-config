@@ -20,8 +20,8 @@ return {
 				typescriptreact = { "prettier" },
 				json = { "prettier" },
 				jsonc = { "prettier" },
-				elixir = { "mix" },
 				python = { "black" },
+				sh = { "shfmt" },
 			},
 			formatters = {
 				["clang-format"] = {
