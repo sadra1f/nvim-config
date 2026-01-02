@@ -19,6 +19,9 @@ local config_group = augroup("TheConfig", {})
 local autocmd = vim.api.nvim_create_autocmd
 local yank_group = augroup("HighlightYank", {})
 
+local current_tab = 0
+local last_tab = 0
+
 function R(name)
 	require("plenary.reload").reload_module(name)
 end
@@ -109,6 +112,9 @@ autocmd("FileType", {
 autocmd("TabEnter", {
 	group = vim.api.nvim_create_augroup("NeotreeOpen", { clear = true }),
 	callback = function()
+		current_tab = vim.fn.tabpagenr()
+		last_tab = vim.fn.tabpagenr("$")
+
 		-- tab-local flag so it only runs once per tab
 		if vim.t.neotree_opened then
 			return
@@ -129,7 +135,7 @@ autocmd("TabClosed", {
 	group = vim.api.nvim_create_augroup("TabCloseGoPrevious", { clear = true }),
 	callback = function()
 		-- If there is a previous tab and we aren't on the last tab, go to it
-		if vim.fn.tabpagenr() > 1 and vim.fn.tabpagenr() < vim.fn.tabpagenr("$") then
+		if vim.fn.tabpagenr() > 1 and current_tab < last_tab then
 			vim.cmd("tabprevious")
 		end
 	end,
