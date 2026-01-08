@@ -20,8 +20,10 @@ return {
 				typescriptreact = { "prettier" },
 				json = { "prettier" },
 				jsonc = { "prettier" },
+				yaml = { "prettier" },
 				python = { "black" },
 				sh = { "shfmt" },
+				dockerfile = { "dockerfmt" },
 			},
 			formatters = {
 				["clang-format"] = {
