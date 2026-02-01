@@ -42,6 +42,7 @@ return {
 		require("mason").setup()
 		require("mason-lspconfig").setup({
 			ensure_installed = {
+				"astro",
 				"cssls",
 				"docker_compose_language_service",
 				"docker_language_server",
