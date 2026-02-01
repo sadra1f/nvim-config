@@ -21,6 +21,7 @@ return {
 				json = { "prettier" },
 				jsonc = { "prettier" },
 				yaml = { "prettier" },
+				astro = { "prettier" },
 				python = { "black" },
 				sh = { "shfmt" },
 				dockerfile = { "dockerfmt" },
