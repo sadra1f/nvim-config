@@ -1,6 +1,8 @@
 return {
 	{
 		"nvim-treesitter/nvim-treesitter",
+		-- WARN: The "main" branch has breaking changes and will not work with current config
+		branch = "master",
 		config = function()
 			require("nvim-treesitter.configs").setup({
 				-- A list of parser names, or "all"
