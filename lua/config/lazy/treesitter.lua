@@ -114,4 +114,8 @@ return {
 			end)
 		end,
 	},
+
+	-- {
+	-- 	"HiPhish/rainbow-delimiters.nvim",
+	-- },
 }
