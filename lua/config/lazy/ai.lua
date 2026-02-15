@@ -34,7 +34,7 @@ return {
 						window = {
 							layout = "vertical",
 							position = "right",
-							width = 0.3,
+							width = 48,
 							opts = {
 								number = false,
 								relativenumber = false,

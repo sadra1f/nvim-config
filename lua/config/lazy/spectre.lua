@@ -4,7 +4,7 @@ return {
 		"nvim-lua/plenary.nvim",
 	},
 	opts = {
-		open_cmd = "rightbelow vnew",
+		open_cmd = "rightbelow vnew | vertical resize 48 | set nonumber | set norelativenumber",
 	},
 	cmd = { "Spectre" },
 	keys = {

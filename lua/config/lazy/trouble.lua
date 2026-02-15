@@ -34,7 +34,7 @@ return {
 			},
 			win = {
 				position = "right",
-				size = 40,
+				size = 48,
 			},
 		},
 		cmd = "Trouble",
