@@ -62,7 +62,7 @@ return {
 						{ id = name },
 					},
 					enter = true,
-					size = 40,
+					size = 48,
 					position = "right",
 				}
 			end
