@@ -3,18 +3,26 @@ return {
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 	},
-	config = function()
-		local spectre = require("spectre")
-
-		spectre.setup({
-			open_cmd = "rightbelow vnew",
-		})
-
-		vim.keymap.set({ "n", "v" }, "<leader>pwf", function()
-			spectre.open_visual({ select_word = true })
-		end, { desc = "Search current word" })
-		vim.keymap.set({ "n", "v" }, "<leader>pcf", function()
-			spectre.open_file_search({ select_word = true })
-		end, { desc = "Search on current file" })
-	end,
+	opts = {
+		open_cmd = "rightbelow vnew",
+	},
+	cmd = { "Spectre" },
+	keys = {
+		{
+			"<leader>pwf",
+			function()
+				require("spectre").open_visual({ select_word = true })
+			end,
+			mode = { "n", "v" },
+			desc = "Search current word",
+		},
+		{
+			"<leader>pcf",
+			function()
+				require("spectre").open_file_search({ select_word = true })
+			end,
+			mode = { "n", "v" },
+			desc = "Search on current file",
+		},
+	},
 }

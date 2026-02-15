@@ -1,18 +1,12 @@
 local root_files = {
-	".luarc.json",
-	".luarc.jsonc",
-	".luacheckrc",
-	".stylua.toml",
-	"stylua.toml",
-	"selene.toml",
-	"selene.yml",
 	".git",
+	"build.zig",
+	"zls.json",
 }
 
 return {
 	"neovim/nvim-lspconfig",
 	dependencies = {
-		"stevearc/conform.nvim",
 		"mason-org/mason.nvim",
 		"mason-org/mason-lspconfig.nvim",
 		"hrsh7th/cmp-nvim-lsp",
@@ -24,11 +18,7 @@ return {
 		"saadparwaiz1/cmp_luasnip",
 		"j-hui/fidget.nvim",
 	},
-
 	config = function()
-		require("conform").setup({
-			formatters_by_ft = {},
-		})
 		local cmp = require("cmp")
 		local cmp_lsp = require("cmp_nvim_lsp")
 		local capabilities = vim.tbl_deep_extend(
@@ -66,7 +56,7 @@ return {
 				zls = function()
 					local lspconfig = require("lspconfig")
 					lspconfig.zls.setup({
-						root_dir = lspconfig.util.root_pattern(".git", "build.zig", "zls.json"),
+						root_dir = lspconfig.util.root_pattern(table.unpack(root_files)),
 						settings = {
 							zls = {
 								enable_inlay_hints = true,

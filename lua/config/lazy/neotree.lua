@@ -8,36 +8,36 @@ return {
 			"nvim-tree/nvim-web-devicons", -- optional, but recommended
 		},
 		lazy = false, -- neo-tree will lazily load itself
-		config = function()
-			require("neo-tree").setup({
-				close_if_last_window = false,
-				sort_case_insensitive = true,
-				source_selector = {
-					winbar = true,
-					statusline = false,
-					sources = {
-						{ source = "filesystem", display_name = "Files" },
-						{ source = "buffers", display_name = "Buffers" },
-						{ source = "git_status", display_name = "Git " },
-						{ source = "document_symbols", display_name = "Symbols" },
-					},
+		opts = {
+			close_if_last_window = false,
+			sort_case_insensitive = true,
+			source_selector = {
+				winbar = true,
+				statusline = false,
+				sources = {
+					{ source = "filesystem", display_name = "Files" },
+					{ source = "buffers", display_name = "Buffers" },
+					{ source = "git_status", display_name = "Git " },
+					{ source = "document_symbols", display_name = "Symbols" },
 				},
-				filesystem = {
-					filtered_items = {
-						visible = true,
-					},
-					follow_current_file = {
-						enabled = true,
-						leave_dirs_open = false,
-					},
+			},
+			filesystem = {
+				filtered_items = {
+					visible = true,
 				},
-				document_symbols = {
-					follow_cursor = true,
+				follow_current_file = {
+					enabled = true,
+					leave_dirs_open = false,
 				},
-			})
-
-			vim.keymap.set("n", "<leader>E", "<cmd>Neotree<cr>")
-			vim.keymap.set("n", "<leader>e", "<cmd>Neotree toggle<cr>")
-		end,
+			},
+			document_symbols = {
+				follow_cursor = true,
+			},
+		},
+		cmd = { "Neotree" },
+		keys = {
+			{ "<leader>E", "<cmd>Neotree<cr>" },
+			{ "<leader>e", "<cmd>Neotree toggle<cr>" },
+		},
 	},
 }
