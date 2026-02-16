@@ -22,9 +22,9 @@ return {
 				statusline = false,
 				sources = {
 					{ source = "filesystem", display_name = "Files" },
-					{ source = "buffers", display_name = "Buffers" },
-					{ source = "git_status", display_name = "Git " },
 					{ source = "document_symbols", display_name = "Symbols" },
+					{ source = "buffers", display_name = "Buffers" },
+					{ source = "git_status", display_name = "Git" },
 				},
 			},
 			filesystem = {
