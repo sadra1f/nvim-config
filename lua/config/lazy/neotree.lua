@@ -9,6 +9,12 @@ return {
 		},
 		lazy = false, -- neo-tree will lazily load itself
 		opts = {
+			sources = {
+				"filesystem",
+				"buffers",
+				"git_status",
+				"document_symbols",
+			},
 			close_if_last_window = false,
 			sort_case_insensitive = true,
 			source_selector = {
@@ -32,6 +38,15 @@ return {
 			},
 			document_symbols = {
 				follow_cursor = true,
+			},
+			default_component_configs = {
+				indent = {
+					padding = 0,
+				},
+			},
+			window = {
+				position = "left",
+				width = 40,
 			},
 		},
 		cmd = { "Neotree" },

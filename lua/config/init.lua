@@ -124,7 +124,10 @@ autocmd("TabEnter", {
 
 		-- defer to avoid E788
 		vim.schedule(function()
-			vim.cmd("Neotree reveal")
+			require("neo-tree.command").execute({
+				reveal = true,
+				dir = vim.loop.cwd(),
+			})
 			-- keep cursor in previous window
 			vim.cmd("noautocmd wincmd p")
 		end)
