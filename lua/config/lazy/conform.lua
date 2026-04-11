@@ -23,6 +23,7 @@ return {
 			python = { "black" },
 			sh = { "shfmt" },
 			dockerfile = { "dockerfmt" },
+			gdscript = { "gdformat" },
 		},
 		formatters = {
 			["clang-format"] = {
