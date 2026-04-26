@@ -39,6 +39,40 @@ return {
 			local dap = require("dap")
 			dap.set_log_level("DEBUG")
 
+			dap.configurations.python = {
+				{
+					type = "python",
+					request = "launch",
+					name = "Django",
+					program = vim.fn.getcwd() .. "/manage.py",
+					args = { "runserver", "--noreload" },
+					django = true,
+					console = "integratedTerminal",
+					pythonPath = vim.fn.exepath("python3"),
+				},
+				{
+					type = "python",
+					request = "launch",
+					name = "Django: Custom Port",
+					program = vim.fn.getcwd() .. "/manage.py",
+					args = function()
+						local port = vim.fn.input("Port: ", "8000")
+						return { "runserver", "--noreload", port }
+					end,
+					django = true,
+					console = "integratedTerminal",
+					pythonPath = vim.fn.exepath("python3"),
+				},
+				{
+					type = "python",
+					request = "launch",
+					name = "Python: Current File",
+					program = "${file}",
+					console = "integratedTerminal",
+					pythonPath = vim.fn.exepath("python3"),
+				},
+			}
+
 			vim.keymap.set("n", "<F8>", dap.continue, { desc = "Debug: Continue" })
 			vim.keymap.set("n", "<F10>", dap.step_over, { desc = "Debug: Step Over" })
 			vim.keymap.set("n", "<F11>", dap.step_into, { desc = "Debug: Step Into" })
