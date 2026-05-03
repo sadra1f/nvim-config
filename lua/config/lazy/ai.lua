@@ -23,9 +23,21 @@ return {
 			"CodeCompanion",
 			"CodeCompanionChat",
 			"CodeCompanionActions",
+			"CodeCompanionCmd",
 		},
 		keys = {
-			{ "<leader>cc", "<cmd>CodeCompanionActions<cr>", desc = "AI Actions" },
+			{
+				"<leader>cc",
+				"<cmd>CodeCompanionChat<cr>",
+				mode = { "n" },
+				desc = "AI Chat",
+			},
+			{
+				"<leader>cc",
+				"<cmd>CodeCompanion<cr>",
+				mode = { "v" },
+				desc = "AI Prompt",
+			},
 		},
 		config = function()
 			require("codecompanion").setup({
