@@ -48,7 +48,10 @@ return {
 					enable = true,
 					disable = function(lang, buf)
 						if lang == "html" then
-							print("disabled")
+							return true
+						end
+
+						if lang == "dockerfile" then
 							return true
 						end
 
