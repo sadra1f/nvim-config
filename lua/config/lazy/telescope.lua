@@ -14,9 +14,27 @@ return {
 			end,
 		},
 		{
-			"<C-p>",
+			"<leader>pF",
 			function()
 				require("telescope.builtin").git_files()
+			end,
+		},
+		{
+			"<leader>pb",
+			function()
+				require("telescope.builtin").buffers()
+			end,
+		},
+		{
+			"<leader>tT",
+			function()
+				require("telescope.builtin").oldfiles()
+			end,
+		},
+		{
+			"<C-p>",
+			function()
+				require("telescope.builtin").commands()
 			end,
 		},
 		{
