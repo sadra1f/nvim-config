@@ -110,6 +110,27 @@ autocmd("FileType", {
 	group = vim.api.nvim_create_augroup("DjangoHTMLFix", { clear = true }),
 })
 
+autocmd({ "BufRead", "BufNewFile" }, {
+	pattern = {
+		"docker-compose.yml",
+		"docker-compose.yaml",
+		"docker-compose.dev.yml",
+		"docker-compose.dev.yaml",
+		"docker-compose.prod.yml",
+		"docker-compose.prod.yaml",
+		"compose.yml",
+		"compose.yaml",
+		"compose.dev.yml",
+		"compose.dev.yaml",
+		"compose.prod.yml",
+		"compose.prod.yaml",
+	},
+	callback = function()
+		vim.bo.filetype = "yaml.docker-compose"
+	end,
+	group = vim.api.nvim_create_augroup("DockerComposeFix", { clear = true }),
+})
+
 autocmd("TabEnter", {
 	group = vim.api.nvim_create_augroup("NeotreeOpen", { clear = true }),
 	callback = function()
