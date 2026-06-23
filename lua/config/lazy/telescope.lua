@@ -1,7 +1,6 @@
 return {
 	"nvim-telescope/telescope.nvim",
-	-- WARN: This version is not compatible with "main" branch of "nvim-treesitter"
-	tag = "0.1.8",
+	tag = "v0.2.2",
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 	},

@@ -1,93 +1,112 @@
 return {
 	{
 		"nvim-treesitter/nvim-treesitter",
-		-- WARN: The "main" branch has breaking changes and will not work with current config
-		branch = "master",
-		config = function()
-			require("nvim-treesitter.configs").setup({
-				-- A list of parser names, or "all"
-				ensure_installed = {
-					"bash",
-					"c",
-					"cpp",
-					"comment",
-					"css",
-					"editorconfig",
-					"git_config",
-					"gitignore",
-					"go",
-					"javascript",
-					"jsdoc",
-					"json",
-					"jsonc",
-					"lua",
-					"markdown",
-					"markdown_inline",
-					"python",
-					"rust",
-					"tsx",
-					"typescript",
-					"vimdoc",
-					"vue",
-					"yaml",
-				},
-
-				-- Install parsers synchronously (only applied to `ensure_installed`)
-				sync_install = false,
-
-				-- Automatically install missing parsers when entering buffer
-				-- Recommendation: set to false if you don"t have `tree-sitter` CLI installed locally
-				auto_install = true,
-
-				indent = {
-					enable = true,
-				},
-
-				highlight = {
-					-- `false` will disable the whole extension
-					enable = true,
-					disable = function(lang, buf)
-						if lang == "html" then
-							return true
-						end
-
-						if lang == "dockerfile" then
-							return true
-						end
-
-						local max_filesize = 200 * 1024 -- 200 KB
-						local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-						if ok and stats and stats.size > max_filesize then
-							vim.notify(
-								"File larger than 200KB treesitter disabled for performance",
-								vim.log.levels.WARN,
-								{ title = "Treesitter" }
-							)
-							return true
-						end
-					end,
-
-					-- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-					-- Set this to `true` if you depend on "syntax" being enabled (like for indentation).
-					-- Using this option may slow down your editor, and you may see some duplicate highlights.
-					-- Instead of true it can also be a list of languages
-					additional_vim_regex_highlighting = { "markdown" },
-				},
-			})
-
-			local treesitter_parser_config = require("nvim-treesitter.parsers").get_parser_configs()
-			treesitter_parser_config.templ = {
-				install_info = {
-					url = "https://github.com/vrischmann/tree-sitter-templ.git",
-					files = { "src/parser.c", "src/scanner.c" },
-					branch = "master",
-				},
+		branch = "main",
+		commit = vim.fn.has("nvim-0.12") == 0 and "7caec274fd19c12b55902a5b795100d21531391f" or nil,
+		build = ":TSUpdate",
+		lazy = false,
+		init = function()
+			local treesitter = require("nvim-treesitter")
+			local parsers = {
+				"bash",
+				"c",
+				"cpp",
+				"comment",
+				"css",
+				"editorconfig",
+				"git_config",
+				"gitignore",
+				"go",
+				"html",
+				"javascript",
+				"jsdoc",
+				"json",
+				"lua",
+				"markdown",
+				"markdown_inline",
+				"python",
+				"query",
+				"rust",
+				"tsx",
+				"typescript",
+				"vim",
+				"vimdoc",
+				"vue",
+				"xml",
+				"yaml",
 			}
 
-			vim.treesitter.language.register("templ", "templ")
+			local group = vim.api.nvim_create_augroup("ConfigTreesitter", { clear = true })
+
+			local function installCLI()
+				if vim.fn.executable("tree-sitter") == 0 then
+					local registry = require("mason-registry")
+					local pkg = registry.get_package("tree-sitter-cli")
+
+					if not pkg:is_installed() then
+						pkg:install()
+					end
+				end
+			end
+
+			local function startTreesitter(bufnr, parser_name)
+				-- syntax highlighting, provided by Neovim
+				vim.treesitter.start(bufnr, parser_name)
+				-- folds, provided by Neovim
+				vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+				vim.wo.foldmethod = "expr"
+				-- indentation, provided by nvim-treesitter
+				vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+			end
+
+			vim.api.nvim_create_autocmd("User", {
+				group = group,
+				pattern = "VeryLazy",
+				once = true,
+				callback = function()
+					installCLI()
+					treesitter.install(parsers)
+				end,
+			})
+
+			vim.api.nvim_create_autocmd({ "FileType" }, {
+				group = group,
+				callback = function(event)
+					local bufnr = event.buf
+					local filetype = vim.api.nvim_get_option_value("filetype", { buf = bufnr })
+
+					if filetype == "" then
+						return
+					end
+
+					if vim.tbl_contains(parsers, filetype) then
+						return
+					end
+
+					local parser_name = vim.treesitter.language.get_lang(filetype)
+					if not parser_name then
+						return
+					end
+
+					local parser_configs = require("nvim-treesitter.parsers")
+					if not parser_configs[parser_name] then
+						return
+					end
+
+					local parser_installed = pcall(vim.treesitter.get_installed, bufnr, parser_name)
+
+					if not parser_installed then
+						installCLI()
+						treesitter.install({ parser_name }):await(function()
+							startTreesitter(bufnr, parser_name)
+						end)
+					else
+						startTreesitter(bufnr, parser_name)
+					end
+				end,
+			})
 		end,
 	},
-
 	{
 		"nvim-treesitter/nvim-treesitter-context",
 		after = "nvim-treesitter",
@@ -111,14 +130,8 @@ return {
 			})
 
 			vim.keymap.set("n", "<leader>ctx", function()
-				local width = vim.opt.columns:get()
-				print(require("nvim-treesitter").statusline(width))
 				tscontext.toggle()
 			end)
 		end,
 	},
-
-	-- {
-	-- 	"HiPhish/rainbow-delimiters.nvim",
-	-- },
 }
