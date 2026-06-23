@@ -4,8 +4,8 @@ My personal Neovim configuration, originally based on [ThePrimeagen/init.lua](ht
 
 ## Requirements
 
-- Neovim (tested with v0.11.x)
-  - **Note:** Currently not compatible with Neovim v0.12.x.
+- Neovim v0.12
+- tree-sitter-cli
 - ripgrep
 - GNU sed
 
