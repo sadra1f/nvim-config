@@ -60,3 +60,6 @@ vim.keymap.set("n", "<leader>tt", "<cmd>tabnew<CR>", { silent = true })
 vim.keymap.set("n", "<leader>tw", "<cmd>tabclose<CR>", { silent = true })
 vim.keymap.set("n", "<leader>t>", "<cmd>tabmove +1<CR>", { silent = true })
 vim.keymap.set("n", "<leader>t<", "<cmd>tabmove -1<CR>", { silent = true })
+
+vim.keymap.set("n", "<leader>>", "<cmd>foldopen<CR>", { silent = true })
+vim.keymap.set("n", "<leader><", "<cmd>foldclose<CR>", { silent = true })

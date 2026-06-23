@@ -34,3 +34,5 @@ vim.opt.showtabline = 2
 
 vim.opt.arabicshape = false
 vim.opt.wrap = true
+
+vim.opt.foldlevelstart = 99
