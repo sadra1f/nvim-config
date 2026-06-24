@@ -1,10 +1,10 @@
 return {
 	"mbbill/undotree",
 	cmd = {
-		"UndotreeFocus ",
-		"UndotreeHide ",
-		"UndotreePersistUndo ",
-		"UndotreeShow ",
+		"UndotreeFocus",
+		"UndotreeHide",
+		"UndotreePersistUndo",
+		"UndotreeShow",
 		"UndotreeToggle",
 	},
 	keys = {
