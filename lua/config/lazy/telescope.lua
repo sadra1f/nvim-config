@@ -25,7 +25,7 @@ return {
 			end,
 		},
 		{
-			"<leader>tT",
+			"<leader>T",
 			function()
 				require("telescope.builtin").oldfiles()
 			end,
