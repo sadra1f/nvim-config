@@ -69,17 +69,13 @@ return {
 				end,
 			})
 
-			vim.api.nvim_create_autocmd({ "FileType" }, {
+			vim.api.nvim_create_autocmd({ "BufEnter", "FileType" }, {
 				group = group,
 				callback = function(event)
 					local bufnr = event.buf
 					local filetype = vim.api.nvim_get_option_value("filetype", { buf = bufnr })
 
 					if filetype == "" then
-						return
-					end
-
-					if vim.tbl_contains(parsers, filetype) then
 						return
 					end
 
@@ -95,13 +91,13 @@ return {
 
 					local parser_installed = pcall(vim.treesitter.get_installed, bufnr, parser_name)
 
-					if not parser_installed then
+					if parser_installed then
+						startTreesitter(bufnr, parser_name)
+					else
 						installCLI()
 						treesitter.install({ parser_name }):await(function()
 							startTreesitter(bufnr, parser_name)
 						end)
-					else
-						startTreesitter(bufnr, parser_name)
 					end
 				end,
 			})
