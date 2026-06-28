@@ -3,64 +3,42 @@ return {
 	tag = "v0.2.2",
 	dependencies = {
 		"nvim-lua/plenary.nvim",
+		"nvim-telescope/telescope-ui-select.nvim",
 	},
-	cmd = { "Telescope" },
-	keys = {
-		{
-			"<leader>pf",
-			function()
-				require("telescope.builtin").find_files()
-			end,
-		},
-		{
-			"<leader>pF",
-			function()
-				require("telescope.builtin").git_files()
-			end,
-		},
-		{
-			"<leader>pb",
-			function()
-				require("telescope.builtin").buffers()
-			end,
-		},
-		{
-			"<leader>T",
-			function()
-				require("telescope.builtin").oldfiles()
-			end,
-		},
-		{
-			"<C-p>",
-			function()
-				require("telescope.builtin").commands()
-			end,
-		},
-		{
-			"<leader>pws",
-			function()
-				local word = vim.fn.expand("<cword>")
-				require("telescope.builtin").grep_string({ search = word })
-			end,
-		},
-		{
-			"<leader>pWs",
-			function()
-				local word = vim.fn.expand("<cWORD>")
-				require("telescope.builtin").grep_string({ search = word })
-			end,
-		},
-		{
-			"<leader>ps",
-			function()
-				require("telescope.builtin").grep_string({ search = vim.fn.input("Grep > ") })
-			end,
-		},
-		{
-			"<leader>vh",
-			function()
-				require("telescope.builtin").help_tags()
-			end,
-		},
-	},
+	config = function()
+		local telescope = require("telescope")
+		local builtin = require("telescope.builtin")
+		local themes = require("telescope.themes")
+
+		telescope.setup({
+			extensions = {
+				["ui-select"] = {
+					themes.get_cursor(),
+				},
+			},
+		})
+		telescope.load_extension("ui-select")
+
+		vim.keymap.set("n", "<leader>pf", builtin.find_files, {})
+		vim.keymap.set("n", "<leader>pF", builtin.git_files, {})
+		vim.keymap.set("n", "<leader>pb", builtin.buffers, {})
+		vim.keymap.set("n", "<leader>T", builtin.oldfiles, {})
+		vim.keymap.set("n", "<C-p>", builtin.commands, {})
+		vim.keymap.set("n", "<leader>vh", builtin.help_tags, {})
+		vim.keymap.set("n", "<leader>pws", function()
+			builtin.grep_string({
+				search = vim.fn.expand("<cword>"),
+			})
+		end, {})
+		vim.keymap.set("n", "<leader>pWs", function()
+			builtin.grep_string({
+				search = vim.fn.expand("<cWORD>"),
+			})
+		end, {})
+		vim.keymap.set("n", "<leader>ps", function()
+			builtin.grep_string({
+				search = vim.fn.input("Grep > "),
+			})
+		end, {})
+	end,
 }
