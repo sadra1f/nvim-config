@@ -13,7 +13,11 @@ return {
 		telescope.setup({
 			extensions = {
 				["ui-select"] = {
-					themes.get_cursor(),
+					themes.get_cursor({
+						layout_config = {
+							height = 12,
+						},
+					}),
 				},
 			},
 		})
