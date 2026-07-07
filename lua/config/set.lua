@@ -1,3 +1,5 @@
+local is_konsole = vim.env.KONSOLE_VERSION ~= nil or vim.env.KONSOLE_DBUS_SERVICE ~= nil
+
 vim.opt.guicursor = ""
 
 vim.opt.nu = true
@@ -32,7 +34,7 @@ vim.opt.updatetime = 50
 
 vim.opt.showtabline = 2
 
-vim.opt.arabicshape = false
+vim.opt.arabicshape = is_konsole
 vim.opt.wrap = true
 
 vim.opt.foldlevelstart = 99
