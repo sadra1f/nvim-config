@@ -17,10 +17,12 @@ return {
 		"L3MON4D3/LuaSnip",
 		"saadparwaiz1/cmp_luasnip",
 		"j-hui/fidget.nvim",
+		"brenoprata10/nvim-highlight-colors",
 	},
 	config = function()
 		local cmp = require("cmp")
 		local cmp_lsp = require("cmp_nvim_lsp")
+		local highlight_colors = require("nvim-highlight-colors")
 		local capabilities = vim.tbl_deep_extend(
 			"force",
 			{},
@@ -110,6 +112,8 @@ return {
 
 		local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
+		highlight_colors.setup({})
+
 		cmp.setup({
 			snippet = {
 				expand = function(args)
@@ -131,6 +135,20 @@ return {
 			}, {
 				{ name = "buffer" },
 			}),
+			formatting = {
+				format = function(entry, item)
+					local color = highlight_colors.format(entry, {
+						kind = item.kind,
+					})
+
+					if color.abbr then
+						item.icon = color.abbr
+						item.icon_hl_group = color.abbr_hl_group
+					end
+
+					return item
+				end,
+			},
 		})
 
 		vim.diagnostic.config({
