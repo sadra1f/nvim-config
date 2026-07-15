@@ -19,7 +19,12 @@ git clone https://github.com/sadra1f/nvim-config.git ~/.config/nvim
 
 Start Neovim and allow the plugin manager to install the required plugins.
 
+## Keymaps
+
+This configuration uses `<Space>` as the leader key.
+
+Press `<Space>` followed by `?` to open a searchable list of all available keymaps.
+
 ## Notes
 
 This configuration is primarily developed and tested on Linux. Some features may depend on Unix utilities such as `ripgrep` and GNU `sed`.
-

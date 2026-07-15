@@ -28,6 +28,7 @@ return {
 		vim.keymap.set("n", "<leader>pb", builtin.buffers, {})
 		vim.keymap.set("n", "<leader>T", builtin.oldfiles, {})
 		vim.keymap.set("n", "<C-p>", builtin.commands, {})
+		vim.keymap.set("n", "<leader>?", builtin.keymaps, {})
 		vim.keymap.set("n", "<leader>vh", builtin.help_tags, {})
 		vim.keymap.set("n", "<leader>pws", function()
 			builtin.grep_string({
