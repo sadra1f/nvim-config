@@ -112,7 +112,17 @@ return {
 
 		local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
-		highlight_colors.setup({})
+		highlight_colors.setup({
+			exclude_filetypes = {
+				"codecompanion",
+				"lazy",
+				"mason",
+				"neo-tree",
+				"spectre_panel",
+				"TelescopePrompt",
+			},
+			exclude_buftypes = {},
+		})
 
 		cmp.setup({
 			snippet = {
