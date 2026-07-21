@@ -45,5 +45,12 @@ return {
 				search = vim.fn.input("Grep > "),
 			})
 		end, {})
+		vim.keymap.set("n", "<leader>p", function()
+			builtin.registers(themes.get_cursor({
+				layout_config = {
+					height = 12,
+				},
+			}))
+		end, {})
 	end,
 }
