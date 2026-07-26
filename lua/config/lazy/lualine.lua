@@ -65,10 +65,64 @@ return {
 				section_separators = { left = "", right = "" },
 			},
 			sections = {
-				lualine_a = { "filename" },
-				lualine_b = { "branch", "diff", "diagnostics" },
-				lualine_c = { blame },
-				lualine_x = { "encoding", "fileformat", "filetype" },
+				lualine_a = {
+					{
+						"filename",
+						on_click = function(n, mouse_button, modifiers)
+							if mouse_button == "l" then -- left click
+								vim.cmd("Telescope find_files")
+							end
+						end,
+					},
+				},
+				lualine_b = {
+					{
+						"branch",
+						on_click = function(n, mouse_button, modifiers)
+							if mouse_button == "l" then -- left click
+								vim.cmd("Telescope git_branches")
+							end
+						end,
+					},
+					{
+						"diff",
+						on_click = function(n, mouse_button, modifiers)
+							if mouse_button == "l" then -- left click
+								vim.cmd("Telescope git_status")
+							end
+						end,
+					},
+					{
+						"diagnostics",
+						on_click = function(n, mouse_button, modifiers)
+							if mouse_button == "l" then -- left click
+								vim.cmd("Trouble workspace toggle")
+							end
+						end,
+					},
+				},
+				lualine_c = {
+					{
+						blame,
+						on_click = function(n, mouse_button, modifiers)
+							if mouse_button == "l" then -- left click
+								vim.cmd("Git blame")
+							end
+						end,
+					},
+				},
+				lualine_x = {
+					"encoding",
+					"fileformat",
+					{
+						"filetype",
+						on_click = function(n, mouse_button, modifiers)
+							if mouse_button == "l" then -- left click
+								vim.cmd("Telescope filetypes")
+							end
+						end,
+					},
+				},
 				lualine_y = { "progress" },
 				lualine_z = { "location" },
 			},
