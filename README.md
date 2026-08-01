@@ -9,6 +9,16 @@ My personal Neovim configuration, originally based on [ThePrimeagen/init.lua](ht
 - ripgrep
 - GNU sed
 
+### Optional: AI assistant (CodeCompanion)
+
+If you want to use the default configuration included in this repository, you also need:
+
+- Codex CLI
+- codex-acp
+- An OpenAI-compatible API available at `http://127.0.0.1:11434` (e.g. [LiteLLM](https://github.com/BerriAI/litellm))
+
+The AI-related configuration (providers, models, and API endpoint) is located in `lua/config/lazy/ai.lua` and can be customized to match your setup.
+
 ## Installation
 
 Clone the repository into your Neovim configuration directory:
