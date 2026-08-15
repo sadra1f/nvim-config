@@ -114,7 +114,7 @@ return {
 				callback = function(args)
 					local handle = progress.handle.create({
 						title = "",
-						message = "Sending...",
+						message = "Processing...",
 						lsp_client = {
 							name = format_adapter(args.data.adapter),
 						},
