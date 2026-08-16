@@ -20,10 +20,12 @@ return {
 			jsonc = { "prettier" },
 			yaml = { "prettier" },
 			astro = { "prettier" },
+			blade = { "prettier" },
 			python = { "black" },
 			sh = { "shfmt" },
 			dockerfile = { "dockerfmt" },
 			gdscript = { "gdformat" },
+			php = { "pint" },
 		},
 		formatters = {
 			["clang-format"] = {

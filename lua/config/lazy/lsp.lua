@@ -1,9 +1,3 @@
-local root_files = {
-	".git",
-	"build.zig",
-	"zls.json",
-}
-
 return {
 	"neovim/nvim-lspconfig",
 	dependencies = {
@@ -30,6 +24,71 @@ return {
 			cmp_lsp.default_capabilities()
 		)
 
+		vim.lsp.config("*", {
+			capabilities = capabilities,
+		})
+
+		vim.lsp.config("tailwindcss", {
+			filetypes = {
+				"astro",
+				"astro-markdown",
+				"blade",
+				"django-html",
+				"htmldjango",
+				"html",
+				"htmlangular",
+				"mdx",
+				"php",
+				"razor",
+				"css",
+				"less",
+				"postcss",
+				"sass",
+				"scss",
+				"stylus",
+				"javascript",
+				"javascriptreact",
+				"typescript",
+				"typescriptreact",
+				"vue",
+				"svelte",
+			},
+		})
+
+		vim.lsp.config("intelephense", {
+			on_attach = function(client, bufnr)
+				client.server_capabilities.diagnosticProvider = nil
+			end,
+			settings = {
+				intelephense = {
+					telemetry = { enabled = false },
+				},
+			},
+		})
+
+		vim.lsp.config("phpantom_lsp", {
+			on_attach = function(client, bufnr)
+				local disabled_methods = {
+					["textDocument/completion"] = true,
+					["textDocument/hover"] = true,
+					["textDocument/definition"] = true,
+				}
+
+				client.server_capabilities.completionProvider = nil
+				client.server_capabilities.hoverProvider = nil
+				client.server_capabilities.definitionProvider = nil
+
+				local supports_method = client.supports_method
+
+				client.supports_method = function(self, method, opts)
+					if disabled_methods[method] then
+						return false
+					end
+					return supports_method(self, method, opts)
+				end
+			end,
+		})
+
 		require("fidget").setup({})
 		require("mason").setup()
 		require("mason-lspconfig").setup({
@@ -42,72 +101,14 @@ return {
 				"eslint",
 				-- "gopls",
 				"html",
+				"intelephense",
 				"jsonls",
 				"lua_ls",
+				"phpantom_lsp",
 				"pyright",
 				-- "rust_analyzer",
 				"tailwindcss",
 				"vtsls",
-			},
-			handlers = {
-				function(server_name) -- default handler (optional)
-					require("lspconfig")[server_name].setup({
-						capabilities = capabilities,
-					})
-				end,
-
-				zls = function()
-					local lspconfig = require("lspconfig")
-					lspconfig.zls.setup({
-						root_dir = lspconfig.util.root_pattern(table.unpack(root_files)),
-						settings = {
-							zls = {
-								enable_inlay_hints = true,
-								enable_snippets = true,
-								warn_style = true,
-							},
-						},
-					})
-					vim.g.zig_fmt_parse_errors = 0
-					vim.g.zig_fmt_autosave = 0
-				end,
-				["lua_ls"] = function()
-					local lspconfig = require("lspconfig")
-					lspconfig.lua_ls.setup({
-						capabilities = capabilities,
-						settings = {
-							Lua = {
-								format = {
-									enable = true,
-									-- Put format options here
-									-- NOTE: the value should be STRING!!
-									defaultConfig = {
-										indent_style = "space",
-										indent_size = "2",
-									},
-								},
-							},
-						},
-					})
-				end,
-				["tailwindcss"] = function()
-					local lspconfig = require("lspconfig")
-					lspconfig.tailwindcss.setup({
-						capabilities = capabilities,
-						filetypes = {
-							"html",
-							"css",
-							"scss",
-							"javascript",
-							"javascriptreact",
-							"typescript",
-							"typescriptreact",
-							"vue",
-							"svelte",
-							"heex",
-						},
-					})
-				end,
 			},
 		})
 
