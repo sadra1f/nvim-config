@@ -28,6 +28,13 @@ return {
 			capabilities = capabilities,
 		})
 
+		vim.lsp.config("html", {
+			filetypes = {
+				"html",
+				"blade",
+			},
+		})
+
 		vim.lsp.config("tailwindcss", {
 			filetypes = {
 				"astro",
