@@ -119,6 +119,13 @@ return {
 			},
 		})
 
+		vim.keymap.set("n", "<leader>vlc", function()
+			local names = vim.tbl_map(function(c)
+				return c.name
+			end, vim.lsp.get_clients({ bufnr = 0 }))
+			vim.notify("LSP clients: " .. table.concat(names, ", "), vim.log.levels.INFO)
+		end, { silent = true, desc = "LSP: show running clients" })
+
 		local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
 		highlight_colors.setup({
