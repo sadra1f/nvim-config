@@ -5,55 +5,55 @@ return {
 		local last_buf = nil
 		local last_line = nil
 		local last_result = ""
+		local current_job = nil
 
 		local blame = function()
 			local current_buffer = vim.api.nvim_get_current_buf()
 			local current_line = vim.fn.line(".")
 
-			-- Return cached result if nothing changed
 			if current_buffer == last_buf and current_line == last_line then
 				return last_result
 			end
-
-			last_buf = current_buffer
-			last_line = current_line
+			last_buf, last_line = current_buffer, current_line
 
 			local file_path = vim.fn.expand("%:p")
-			if file_path == "" then
-				last_result = ""
+			if vim.bo.buftype ~= "" or file_path == "" then
 				return last_result
 			end
 
-			local cmd = string.format(
-				"git blame --line-porcelain -L %d,%d %s 2>/dev/null",
-				current_line,
-				current_line,
-				vim.fn.shellescape(file_path)
+			if current_job and not current_job:is_closing() then
+				current_job:kill(15) -- SIGTERM
+			end
+
+			local this_job
+			this_job = vim.system(
+				{ "git", "blame", "--line-porcelain", "-L", current_line .. "," .. current_line, file_path },
+				{ text = true },
+				function(obj)
+					if current_job ~= this_job or obj.code ~= 0 or not obj.stdout then
+						return
+					end
+
+					local author, author_time
+
+					for l in obj.stdout:gmatch("[^\r\n]+") do
+						if vim.startswith(l, "author ") then
+							author = l:sub(8)
+						elseif vim.startswith(l, "author-time ") then
+							author_time = tonumber(l:sub(13))
+						end
+					end
+
+					if author and author_time then
+						last_result = string.format("%s %s", author, os.date("%Y-%m-%d", author_time))
+						vim.schedule(function()
+							require("lualine").refresh()
+						end)
+					end
+				end
 			)
 
-			local output = vim.fn.systemlist(cmd)
-			if vim.v.shell_error ~= 0 or not output then
-				last_result = ""
-				return last_result
-			end
-
-			local author, author_time
-
-			for _, l in ipairs(output) do
-				if vim.startswith(l, "author ") then
-					author = l:sub(8)
-				elseif vim.startswith(l, "author-time ") then
-					author_time = tonumber(l:sub(13))
-				end
-			end
-
-			if not author or not author_time then
-				last_result = ""
-				return last_result
-			end
-
-			local date = os.date("%Y-%m-%d", author_time)
-			last_result = string.format("%s %s", author, date)
+			current_job = this_job
 
 			return last_result
 		end
