@@ -62,7 +62,9 @@ vim.keymap.set("n", "<leader>t>", "<cmd>tabmove +1<CR>", { silent = true })
 vim.keymap.set("n", "<leader>t<", "<cmd>tabmove -1<CR>", { silent = true })
 
 vim.keymap.set("n", "<leader>>", "<cmd>foldopen<CR>", { silent = true })
+vim.keymap.set("n", "<leader>a>", "zR", { silent = true })
 vim.keymap.set("n", "<leader><", "<cmd>foldclose<CR>", { silent = true })
+vim.keymap.set("n", "<leader>a<", "zM", { silent = true })
 
 vim.keymap.set({ "n", "v", "o" }, "<Up>", "gk")
 vim.keymap.set({ "n", "v", "o" }, "<Down>", "gj")
