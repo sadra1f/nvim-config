@@ -70,3 +70,7 @@ vim.keymap.set({ "n", "v", "o" }, "<Up>", "gk")
 vim.keymap.set({ "n", "v", "o" }, "<Down>", "gj")
 vim.keymap.set("i", "<Up>", "<C-o>gk")
 vim.keymap.set("i", "<Down>", "<C-o>gj")
+
+vim.keymap.set("t", "<Esc><Esc>", [[<C-\><C-n>]], {
+	desc = "Exit terminal mode",
+})
