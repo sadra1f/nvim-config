@@ -14,7 +14,6 @@ My personal Neovim configuration, originally based on [ThePrimeagen/init.lua](ht
 If you want to use the default configuration included in this repository, you also need:
 
 - Codex CLI
-- codex-acp
 - An OpenAI-compatible API available at `http://127.0.0.1:11434` (e.g. [LiteLLM](https://github.com/BerriAI/litellm))
 
 The AI-related configuration (providers, models, and API endpoint) is located in `lua/config/lazy/ai.lua` and can be customized to match your setup.

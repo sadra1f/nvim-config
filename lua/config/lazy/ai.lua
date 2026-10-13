@@ -12,23 +12,82 @@ return {
 		"CodeCompanionChat",
 		"CodeCompanionActions",
 		"CodeCompanionCmd",
+		"CodeCompanionCLI",
 	},
 	keys = {
 		{
-			"<leader>cc",
-			"<cmd>CodeCompanionChat<cr>",
-			mode = { "n" },
-			desc = "AI Chat",
+			"<leader>CC",
+			function()
+				require("codecompanion").cli({ agent = "codex" })
+			end,
+			mode = "n",
+			desc = "Codex CLI",
 		},
 		{
 			"<leader>cc",
+			function()
+				local bufnr = vim.api.nvim_get_current_buf()
+				local filepath = vim.api.nvim_buf_get_name(bufnr)
+
+				if filepath == "" or vim.bo[bufnr].buftype ~= "" then
+					require("codecompanion").cli({ agent = "codex" })
+				else
+					local filename = vim.fn.fnamemodify(filepath, ":.")
+
+					require("codecompanion").cli(("- Selected file @%s"):format(filename), {
+						agent = "codex",
+					})
+				end
+			end,
+			mode = "n",
+			desc = "Codex CLI (current file)",
+		},
+		{
+			"<leader>CC",
 			"<cmd>CodeCompanion<cr>",
-			mode = { "v" },
-			desc = "AI Prompt",
+			mode = "v",
+			desc = "AI prompt",
+		},
+		{
+			"<leader>cc",
+			function()
+				require("codecompanion").cli("", { agent = "codex" })
+			end,
+			mode = "v",
+			desc = "Prompt Codex with selection",
 		},
 	},
 	config = function()
 		require("codecompanion").setup({
+			interactions = {
+				cli = {
+					agent = "codex",
+					agents = {
+						codex = {
+							cmd = "codex",
+							args = {},
+							description = "OpenAI Codex CLI",
+							provider = "terminal",
+						},
+					},
+					opts = {
+						auto_insert = true,
+						reload = true,
+					},
+				},
+				chat = {
+					adapter = "http_api",
+				},
+				cmd = {
+					adapter = "http_api",
+				},
+				inline = {
+					adapter = "http_api",
+				},
+				background = {
+					adapter = "http_api",
+				},
+			},
 			adapters = {
 				http = {
 					http_api = function()
@@ -43,20 +102,6 @@ return {
 							},
 						})
 					end,
-				},
-			},
-			strategies = {
-				chat = {
-					adapter = "codex",
-				},
-				cmd = {
-					adapter = "codex",
-				},
-				inline = {
-					adapter = "http_api",
-				},
-				background = {
-					adapter = "http_api",
 				},
 			},
 			display = {
@@ -90,8 +135,7 @@ return {
 		}
 
 		local function format_adapter(adapter)
-			local parts = {}
-			table.insert(parts, adapter.formatted_name)
+			local parts = { adapter.formatted_name }
 			if adapter.model and adapter.model ~= "" then
 				table.insert(parts, "(" .. adapter.model .. ")")
 			end
@@ -106,7 +150,7 @@ return {
 
 			spinner.handles = {}
 
-			local group = vim.api.nvim_create_augroup("dotfiles.codecompanion.spinner", {})
+			local group = vim.api.nvim_create_augroup("dotfiles.codecompanion.spinner", { clear = true })
 
 			vim.api.nvim_create_autocmd("User", {
 				pattern = "CodeCompanionRequestStarted",
@@ -129,6 +173,7 @@ return {
 				callback = function(args)
 					local handle = spinner.handles[args.data.id]
 					spinner.handles[args.data.id] = nil
+
 					if handle then
 						if args.data.status == "success" then
 							handle.message = spinner.completed
