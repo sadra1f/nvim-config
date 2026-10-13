@@ -58,7 +58,49 @@ vim.keymap.set("n", "<leader>rn", "<cmd>set relativenumber<CR>", { silent = true
 vim.keymap.set("n", "<leader>Rn", "<cmd>set norelativenumber<CR>", { silent = true })
 
 vim.keymap.set("n", "<leader>tt", "<cmd>tabnew<CR>", { silent = true })
-vim.keymap.set("n", "<leader>tw", "<cmd>tabclose<CR>", { silent = true })
+vim.keymap.set("n", "<leader>tW", "<cmd>tabclose<CR>", { silent = true })
+vim.keymap.set("n", "<leader>tw", function()
+	local target = vim.api.nvim_get_current_tabpage()
+
+	-- if there was only one tab, open an empty one so the original can be closed
+	if #vim.api.nvim_list_tabpages() == 1 then
+		vim.cmd("tabnew")
+	end
+
+	-- buffers shown in the tab being closed
+	local to_close = {}
+	for _, win in ipairs(vim.api.nvim_tabpage_list_wins(target)) do
+		to_close[vim.api.nvim_win_get_buf(win)] = true
+	end
+
+	-- buffers still shown in other tabs must stay
+	for _, tab in ipairs(vim.api.nvim_list_tabpages()) do
+		if tab ~= target then
+			for _, win in ipairs(vim.api.nvim_tabpage_list_wins(tab)) do
+				to_close[vim.api.nvim_win_get_buf(win)] = nil
+			end
+		end
+	end
+
+	vim.cmd("tabclose " .. vim.api.nvim_tabpage_get_number(target))
+
+	local kept = {}
+	for buf in pairs(to_close) do
+		if vim.api.nvim_buf_is_valid(buf) then
+			if vim.bo[buf].modified then
+				table.insert(kept, vim.fn.fnamemodify(vim.api.nvim_buf_get_name(buf), ":t"))
+			else
+				-- terminal buffers which have a running job need to be forced
+				local force = vim.bo[buf].buftype == "terminal"
+				pcall(vim.api.nvim_buf_delete, buf, { force = force })
+			end
+		end
+	end
+
+	if #kept > 0 then
+		vim.notify("Kept buffers with unsaved changes: " .. table.concat(kept, ", "), vim.log.levels.WARN)
+	end
+end, { silent = true })
 vim.keymap.set("n", "<leader>t>", "<cmd>tabmove +1<CR>", { silent = true })
 vim.keymap.set("n", "<leader>t<", "<cmd>tabmove -1<CR>", { silent = true })
 
