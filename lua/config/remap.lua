@@ -1,4 +1,5 @@
 vim.g.mapleader = " "
+
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
@@ -74,3 +75,53 @@ vim.keymap.set("i", "<Down>", "<C-o>gj")
 vim.keymap.set("t", "<Esc><Esc>", [[<C-\><C-n>]], {
 	desc = "Exit terminal mode",
 })
+
+vim.keymap.set("n", "<leader>gg", function()
+	local cmd
+	for _, candidate in ipairs({ "gitui", "lazygit" }) do
+		if vim.fn.executable(candidate) == 1 then
+			cmd = candidate
+			break
+		end
+	end
+
+	if not cmd then
+		vim.notify("Neither gitui nor lazygit was found in PATH", vim.log.levels.WARN)
+		return
+	end
+
+	local buf = vim.api.nvim_create_buf(false, true)
+	local width = math.floor(vim.o.columns * 0.9)
+	local height = math.floor(vim.o.lines * 0.9)
+	local win = vim.api.nvim_open_win(buf, true, {
+		relative = "editor",
+		width = width,
+		height = height,
+		row = math.floor((vim.o.lines - height) / 2) - 1,
+		col = math.floor((vim.o.columns - width) / 2),
+		style = "minimal",
+		border = "rounded",
+	})
+
+	local opts = {
+		on_exit = function()
+			vim.schedule(function()
+				if vim.api.nvim_win_is_valid(win) then
+					vim.api.nvim_win_close(win, true)
+				end
+				if vim.api.nvim_buf_is_valid(buf) then
+					vim.api.nvim_buf_delete(buf, { force = true })
+				end
+			end)
+		end,
+	}
+
+	if vim.fn.has("nvim-0.11") == 1 then
+		opts.term = true
+		vim.fn.jobstart(cmd, opts)
+	else
+		vim.fn.termopen(cmd, opts)
+	end
+
+	vim.cmd("startinsert")
+end, { desc = "Git TUI (gitui / lazygit)" })

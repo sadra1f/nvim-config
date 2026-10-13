@@ -17,7 +17,7 @@ return {
 		},
 		keys = {
 			{
-				"<leader>gg",
+				"<leader>gs",
 				"<cmd>botright vertical Git<cr>"
 					.. "<cmd>vertical resize 48<cr>"
 					.. "<cmd>set nonumber<cr>"
