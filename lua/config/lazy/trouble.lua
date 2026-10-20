@@ -44,6 +44,7 @@ return {
 				function()
 					require("trouble").toggle("workspace")
 				end,
+				desc = "Toggle workspace diagnostics and TODOs",
 			},
 		},
 	},

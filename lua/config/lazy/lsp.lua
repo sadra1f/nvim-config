@@ -174,12 +174,12 @@ return {
 				end,
 			},
 			mapping = cmp.mapping.preset.insert({
-				["<C-p>"] = cmp.mapping.select_prev_item(cmp_select),
-				["<C-n>"] = cmp.mapping.select_next_item(cmp_select),
-				["<C-y>"] = cmp.mapping.confirm({ select = true }),
-				["<CR>"] = cmp.mapping.confirm({ select = true }),
-				["<Tab>"] = cmp.mapping.confirm({ select = true }),
-				["<C-Space>"] = cmp.mapping.complete(),
+				["<C-p>"] = cmp.mapping.select_prev_item(cmp_select), -- Select previous completion item
+				["<C-n>"] = cmp.mapping.select_next_item(cmp_select), -- Select next completion item
+				["<C-y>"] = cmp.mapping.confirm({ select = true }), -- Confirm selected or first completion item
+				["<CR>"] = cmp.mapping.confirm({ select = true }), -- Confirm selected or first completion item
+				["<Tab>"] = cmp.mapping.confirm({ select = true }), -- Confirm selected or first completion item
+				["<C-Space>"] = cmp.mapping.complete(), -- Open completion menu
 			}),
 			sources = cmp.config.sources({
 				-- { name = "copilot", group_index = 2 },

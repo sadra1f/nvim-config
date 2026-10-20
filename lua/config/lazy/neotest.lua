@@ -18,7 +18,7 @@ return {
 					testify = true,
 				})
 			end,
-			{ desc = "Debug: Running Nearest Test" },
+			desc = "Run nearest test",
 		},
 		{
 			"<leader>tv",
@@ -60,7 +60,7 @@ return {
 			function()
 				require("neotest").run.run(vim.fn.getcwd())
 			end,
-			desc = "Debug: Open test output",
+			desc = "Run all tests in working directory",
 		},
 	},
 	config = function()

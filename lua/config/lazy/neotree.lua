@@ -51,8 +51,8 @@ return {
 		},
 		cmd = { "Neotree" },
 		keys = {
-			{ "<leader>E", "<cmd>Neotree<cr>" },
-			{ "<leader>e", "<cmd>Neotree toggle<cr>" },
+			{ "<leader>E", "<cmd>Neotree<cr>", desc = "Focus file tree" },
+			{ "<leader>e", "<cmd>Neotree toggle<cr>", desc = "Toggle file tree" },
 		},
 	},
 }

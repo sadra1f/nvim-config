@@ -40,12 +40,14 @@ return {
 			function()
 				require("conform").format({ bufnr = 0 })
 			end,
+			desc = "Format current buffer",
 		},
 		{
 			"<leader>F",
 			function()
 				require("conform").format({ async = true, lsp_fallback = true })
 			end,
+			desc = "Format current buffer asynchronously",
 		},
 	},
 }

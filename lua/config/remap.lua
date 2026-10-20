@@ -1,64 +1,68 @@
 vim.g.mapleader = " "
 
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
+vim.keymap.set("n", "<leader>pv", vim.cmd.Ex, { desc = "Open file explorer" })
 
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
-vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
 
-vim.api.nvim_set_keymap("n", "<leader>tf", "<Plug>PlenaryTestFile", { noremap = false, silent = false })
+vim.api.nvim_set_keymap("n", "<leader>tf", "<Plug>PlenaryTestFile", {
+	noremap = false,
+	silent = false,
+	desc = "Run tests in current file",
+})
 
-vim.keymap.set("n", "J", "mzJ`z")
-vim.keymap.set("n", "<C-d>", "<C-d>zz")
-vim.keymap.set("n", "<C-u>", "<C-u>zz")
-vim.keymap.set("n", "n", "nzzzv")
-vim.keymap.set("n", "N", "Nzzzv")
-vim.keymap.set("n", "=ap", "ma=ap'a")
-vim.keymap.set("n", "<leader>zig", "<cmd>lsp restart<cr><cmd>e<cr>")
+vim.keymap.set("n", "J", "mzJ`z", { desc = "Join lines and preserve cursor position" })
+vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Scroll half a page down and center cursor" })
+vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Scroll half a page up and center cursor" })
+vim.keymap.set("n", "n", "nzzzv", { desc = "Next search match, centered and unfolded" })
+vim.keymap.set("n", "N", "Nzzzv", { desc = "Previous search match, centered and unfolded" })
+vim.keymap.set("n", "=ap", "ma=ap'a", { desc = "Reindent paragraph and return to original line" })
+vim.keymap.set("n", "<leader>zig", "<cmd>lsp restart<cr><cmd>e<cr>", { desc = "Restart LSP and reload file" })
 
 -- greatest remap ever
-vim.keymap.set("x", "<leader>p", [["_dP]])
+for _, key in ipairs({ "<leader>p", "<leader>pp" }) do
+	vim.keymap.set("x", key, [["_dP]], { desc = "Paste over selection without replacing register" })
+end
 
 -- next greatest remap ever : asbjornHaland
-vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
-vim.keymap.set("n", "<leader>Y", [["+Y]])
+vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = "Yank to system clipboard" })
+vim.keymap.set("n", "<leader>Y", [["+Y]], { desc = "Yank line to system clipboard" })
 
-vim.keymap.set({ "n", "v" }, "<leader>d", '"_d')
+vim.keymap.set({ "n", "v" }, "<leader>d", '"_d', { desc = "Delete without replacing register" })
 
 -- This is going to get me cancelled
-vim.keymap.set("i", "<C-c>", "<Esc>")
+vim.keymap.set("i", "<C-c>", "<Esc>", { desc = "Exit insert mode" })
 
-vim.keymap.set("n", "Q", "<nop>")
-vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
-vim.keymap.set("n", "<M-h>", "<cmd>silent !tmux-sessionizer -s 0 --vsplit<CR>")
-vim.keymap.set("n", "<M-H>", "<cmd>silent !tmux neww tmux-sessionizer -s 0<CR>")
+vim.keymap.set("n", "Q", "<nop>", { desc = "Disable Ex mode shortcut" })
 
-vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
-vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
-vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
-vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
+vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz", { desc = "Next quickfix entry and center cursor" })
+vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz", { desc = "Previous quickfix entry and center cursor" })
+vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz", { desc = "Next location list entry and center cursor" })
+vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz", { desc = "Previous location list entry and center cursor" })
 
-vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+vim.keymap.set(
+	"n",
+	"<leader>s",
+	[[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
+	{ desc = "Replace word under cursor throughout file" }
+)
 
--- vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
---
--- vim.keymap.set("n", "<leader>ee", "oif err != nil {<CR>}<Esc>Oreturn err<Esc>")
---
--- vim.keymap.set("n", "<leader>ea", 'oassert.NoError(err, "")<Esc>F";a')
---
--- vim.keymap.set("n", "<leader>ef", 'oif err != nil {<CR>}<Esc>Olog.Fatalf("error: %s\\n", err.Error())<Esc>jj')
---
--- vim.keymap.set("n", "<leader>el", 'oif err != nil {<CR>}<Esc>O.logger.Error("error", "error", err)<Esc>F.;i')
+-- vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true, desc = "Make current file executable" })
 
-vim.keymap.set("n", "<leader><leader>", function()
-	vim.cmd("so")
-end)
+-- vim.keymap.set("n", "<leader><leader>", function()
+-- 	vim.cmd("so")
+-- end, { desc = "Source current file" })
 
 -- Added shortcuts
-vim.keymap.set("n", "<leader>rn", "<cmd>set relativenumber<CR>", { silent = true })
-vim.keymap.set("n", "<leader>Rn", "<cmd>set norelativenumber<CR>", { silent = true })
+vim.keymap.set(
+	"n",
+	"<leader>rn",
+	"<cmd>set relativenumber!<CR>",
+	{ silent = true, desc = "Toggle relative line numbers" }
+)
 
-vim.keymap.set("n", "<leader>tt", "<cmd>tabnew<CR>", { silent = true })
-vim.keymap.set("n", "<leader>tW", "<cmd>tabclose<CR>", { silent = true })
+vim.keymap.set("n", "<leader>tt", "<cmd>tabnew<CR>", { silent = true, desc = "Open new tab" })
+vim.keymap.set("n", "<leader>tW", "<cmd>tabclose<CR>", { silent = true, desc = "Close current tab" })
 vim.keymap.set("n", "<leader>tw", function()
 	local target = vim.api.nvim_get_current_tabpage()
 
@@ -100,19 +104,23 @@ vim.keymap.set("n", "<leader>tw", function()
 	if #kept > 0 then
 		vim.notify("Kept buffers with unsaved changes: " .. table.concat(kept, ", "), vim.log.levels.WARN)
 	end
-end, { silent = true })
-vim.keymap.set("n", "<leader>t>", "<cmd>tabmove +1<CR>", { silent = true })
-vim.keymap.set("n", "<leader>t<", "<cmd>tabmove -1<CR>", { silent = true })
+end, { silent = true, desc = "Close tab and its unshared saved buffers" })
+vim.keymap.set("n", "<leader>t[", "<cmd>tabmove -1<CR>", { silent = true, desc = "Move tab left" })
+vim.keymap.set("n", "<leader>t]", "<cmd>tabmove +1<CR>", { silent = true, desc = "Move tab right" })
+vim.keymap.set("n", "<leader>t{", "<cmd>tabmove 0<CR>", { silent = true, desc = "Move tab first" })
+vim.keymap.set("n", "<leader>t}", "<cmd>tabmove $<CR>", { silent = true, desc = "Move tab last" })
+vim.keymap.set("n", "<leader>t<Left>", "gT", { silent = true, desc = "Previous tab" })
+vim.keymap.set("n", "<leader>t<Right>", "gt", { silent = true, desc = "Next tab" })
 
-vim.keymap.set("n", "<leader>>", "<cmd>foldopen<CR>", { silent = true })
-vim.keymap.set("n", "<leader>a>", "zR", { silent = true })
-vim.keymap.set("n", "<leader><", "<cmd>foldclose<CR>", { silent = true })
-vim.keymap.set("n", "<leader>a<", "zM", { silent = true })
+vim.keymap.set("n", "<leader><Right>", "<cmd>foldopen<CR>", { silent = true, desc = "Open fold under cursor" })
+vim.keymap.set("n", "<leader>a<Right>", "zR", { silent = true, desc = "Open all folds" })
+vim.keymap.set("n", "<leader><Left>", "<cmd>foldclose<CR>", { silent = true, desc = "Close fold under cursor" })
+vim.keymap.set("n", "<leader>a<Left>", "zM", { silent = true, desc = "Close all folds" })
 
-vim.keymap.set({ "n", "v", "o" }, "<Up>", "gk")
-vim.keymap.set({ "n", "v", "o" }, "<Down>", "gj")
-vim.keymap.set("i", "<Up>", "<C-o>gk")
-vim.keymap.set("i", "<Down>", "<C-o>gj")
+vim.keymap.set({ "n", "v", "o" }, "<Up>", "gk", { desc = "Move up one display line" })
+vim.keymap.set({ "n", "v", "o" }, "<Down>", "gj", { desc = "Move down one display line" })
+vim.keymap.set("i", "<Up>", "<C-o>gk", { desc = "Move up one display line" })
+vim.keymap.set("i", "<Down>", "<C-o>gj", { desc = "Move down one display line" })
 
 vim.keymap.set("t", "<Esc><Esc>", [[<C-\><C-n>]], {
 	desc = "Exit terminal mode",

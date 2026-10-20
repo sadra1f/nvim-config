@@ -127,7 +127,7 @@ return {
 
 			vim.keymap.set("n", "<leader>ctx", function()
 				tscontext.toggle()
-			end)
+			end, { desc = "Toggle Treesitter context" })
 		end,
 	},
 }

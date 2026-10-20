@@ -14,6 +14,7 @@ return {
 				vim.cmd.UndotreeToggle()
 				vim.cmd.UndotreeFocus()
 			end,
+			desc = "Toggle and focus undo tree",
 		},
 	},
 	init = function()

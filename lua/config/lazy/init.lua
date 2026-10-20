@@ -11,6 +11,7 @@ return {
 				function()
 					require("cellular-automaton").start_animation("make_it_rain")
 				end,
+				desc = "Start make-it-rain animation",
 			},
 		},
 	},
