@@ -12,7 +12,7 @@ vim.cmd([[
 
     amenu     PopUp.Debug                   <leader>dr
     anoremenu PopUp.Toggle\ breakpoint      <Cmd>lua require("dap").toggle_breakpoint()<CR>
-    amenu     PopUp.View\ all\ breakpoints  <leader>dr
+    amenu     PopUp.View\ all\ breakpoints  <leader>db
 
     anoremenu PopUp.-2-                     <Nop>
 
