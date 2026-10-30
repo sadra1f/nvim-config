@@ -62,40 +62,6 @@ return {
 			},
 		})
 
-		vim.lsp.config("intelephense", {
-			on_attach = function(client, bufnr)
-				client.server_capabilities.diagnosticProvider = nil
-			end,
-			settings = {
-				intelephense = {
-					telemetry = { enabled = false },
-				},
-			},
-		})
-
-		vim.lsp.config("phpantom_lsp", {
-			on_attach = function(client, bufnr)
-				local disabled_methods = {
-					["textDocument/completion"] = true,
-					["textDocument/hover"] = true,
-					["textDocument/definition"] = true,
-				}
-
-				client.server_capabilities.completionProvider = nil
-				client.server_capabilities.hoverProvider = nil
-				client.server_capabilities.definitionProvider = nil
-
-				local supports_method = client.supports_method
-
-				client.supports_method = function(self, method, opts)
-					if disabled_methods[method] then
-						return false
-					end
-					return supports_method(self, method, opts)
-				end
-			end,
-		})
-
 		vim.lsp.config("vtsls", {
 			filetypes = {
 				"typescript",
@@ -134,10 +100,9 @@ return {
 				"eslint",
 				-- "gopls",
 				"html",
-				"intelephense",
 				"jsonls",
 				"lua_ls",
-				"phpantom_lsp",
+				"phptools",
 				"pyright",
 				-- "rust_analyzer",
 				"tailwindcss",
