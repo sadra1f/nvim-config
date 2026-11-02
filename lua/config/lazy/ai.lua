@@ -1,6 +1,6 @@
 return {
 	"olimorris/codecompanion.nvim",
-	version = "^19.0.0",
+	version = vim.fn.has("nvim-0.12") == 0 and "^19.0.0" or "^20.0.0",
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 		"nvim-treesitter/nvim-treesitter",
