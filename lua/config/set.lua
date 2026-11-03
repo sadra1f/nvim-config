@@ -3,7 +3,7 @@ local is_konsole = vim.env.KONSOLE_VERSION ~= nil or vim.env.KONSOLE_DBUS_SERVIC
 vim.opt.guicursor = ""
 
 vim.opt.nu = true
-vim.opt.relativenumber = true
+vim.opt.relativenumber = false
 
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
