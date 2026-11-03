@@ -130,4 +130,32 @@ return {
 			end, { desc = "Toggle Treesitter context" })
 		end,
 	},
+	{
+		"nvim-treesitter/nvim-treesitter-textobjects",
+		lazy = false,
+		opts = {
+			select = {
+				enable = true,
+				lookahead = true,
+			},
+		},
+		keys = {
+			{
+				"ab",
+				function()
+					require("nvim-treesitter-textobjects.select").select_textobject("@block.outer", "textobjects")
+				end,
+				mode = { "x", "o" },
+				desc = "Select outer block",
+			},
+			{
+				"ib",
+				function()
+					require("nvim-treesitter-textobjects.select").select_textobject("@block.inner", "textobjects")
+				end,
+				mode = { "x", "o" },
+				desc = "Select inner block",
+			},
+		},
+	},
 }
