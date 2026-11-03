@@ -1,4 +1,4 @@
-function ColorMyPencils(color)
+function SetColors(color)
 	color = color or "catppuccin"
 	vim.cmd.colorscheme(color)
 
@@ -28,10 +28,15 @@ return {
 					solid = false, -- use solid styling for floating windows, see |winborder|
 				},
 				no_italic = true,
+				custom_highlights = function(colors)
+					return {
+						CursorLineNr = { fg = colors.lavender, bold = true },
+					}
+				end,
 			})
 
 			-- Use this on active color scheme
-			ColorMyPencils()
+			SetColors()
 		end,
 	},
 }

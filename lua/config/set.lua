@@ -38,3 +38,6 @@ vim.opt.arabicshape = is_konsole
 vim.opt.wrap = true
 
 vim.opt.foldlevelstart = 99
+
+vim.opt.cursorline = true
+vim.opt.cursorlineopt = "number"
