@@ -5,6 +5,12 @@ return {
 	},
 	opts = {
 		open_cmd = "botright vnew | vertical resize 48 | set nonumber | set norelativenumber",
+		replace_engine = vim.fn.has("macunix") == 1 and vim.fn.executable("gsed") == 1 and {
+			sed = {
+				cmd = "gsed",
+				args = { "-i", "-E" },
+			},
+		} or nil,
 	},
 	cmd = { "Spectre" },
 	keys = {
