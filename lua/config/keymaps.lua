@@ -175,3 +175,7 @@ vim.keymap.set("n", "<leader>gg", function()
 
 	vim.cmd("startinsert")
 end, { desc = "Git TUI (gitui / lazygit)" })
+
+vim.keymap.set({ "n", "x" }, "<leader>m", "<Cmd>popup PopUp<CR>", {
+	desc = "Open context menu",
+})

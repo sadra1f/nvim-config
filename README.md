@@ -16,7 +16,7 @@ If you want to use the default configuration included in this repository, you al
 - Codex CLI
 - An OpenAI-compatible API available at `http://127.0.0.1:11434` (e.g. [LiteLLM](https://github.com/BerriAI/litellm))
 
-The AI-related configuration (providers, models, and API endpoint) is located in `lua/config/lazy/ai.lua` and can be customized to match your setup.
+The AI-related configuration (providers, models, and API endpoint) is located in `lua/plugins/ai.lua` and can be customized to match your setup.
 
 ## Installation
 
@@ -34,6 +34,14 @@ This configuration uses `<Space>` as the leader key.
 
 Press `<Space>` followed by `?` to open a searchable list of all available keymaps.
 
+## Directory Structure
+
+| Path           | Purpose                                                                                      |
+| -------------- | -------------------------------------------------------------------------------------------- |
+| `init.lua`     | Neovim entry point.                                                                          |
+| `lua/config/`  | Core options, keymaps, autocommands, menus, explorer settings, helpers, and lazy.nvim setup. |
+| `lua/plugins/` | Plugin specifications and individual plugin configurations.                                  |
+
 ## Notes
 
-This configuration is primarily developed and tested on Linux. Some features may depend on Unix utilities such as `ripgrep` and GNU `sed`.
+This configuration is primarily developed and tested on Linux and macOS. Some features may depend on Unix utilities such as `ripgrep` and GNU `sed`.
